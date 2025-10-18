@@ -13,19 +13,16 @@ function getMonthlyQuota(target, current, dueDate) {
 }
 
 function parseDateOnly(input) {
-    // Acepta 'YYYY-MM-DD' o Date | ISO string; devuelve Date en midnight local (hours 0,0,0,0) o null si inválida
     if (!input) return null;
     try {
         if (typeof input === 'string') {
-            // si viene en formato YYYY-MM-DD (desde <input type="date">)
             const isoDateMatch = input.match(/^(\d{4})-(\d{2})-(\d{2})$/);
             if (isoDateMatch) {
                 const y = Number(isoDateMatch[1]);
                 const m = Number(isoDateMatch[2]);
                 const d = Number(isoDateMatch[3]);
-                return new Date(y, m - 1, d); // constructor local
+                return new Date(y, m - 1, d); 
             }
-            // fallback: intentar parsear cualquier string
             const dt = new Date(input);
             if (!isNaN(dt.getTime())) {
                 return new Date(dt.getFullYear(), dt.getMonth(), dt.getDate());
@@ -35,7 +32,6 @@ function parseDateOnly(input) {
             if (isNaN(input.getTime())) return null;
             return new Date(input.getFullYear(), input.getMonth(), input.getDate());
         } else {
-            // otros tipos -> invalid
             return null;
         }
     } catch (e) {
@@ -69,7 +65,7 @@ export const createSavingsGoal = async (req, res) => {
             name: name.trim(),
             description: description || '',
             target_amount,
-            due_date: dueDate, // guardamos fecha normalizada (midnight local)
+            due_date: dueDate, 
             current_amount: 0
         });
 

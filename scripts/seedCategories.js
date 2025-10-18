@@ -1,4 +1,3 @@
-// lib/seedCategories.js
 import Category from '../models/categoryModel.js';
 
 const DEFAULT_CATEGORIES = [

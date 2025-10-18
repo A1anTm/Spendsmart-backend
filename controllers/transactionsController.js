@@ -178,7 +178,6 @@ export const getTransactionsByFilter = async (req, res) => {
       }
     ];
 
-    /* ------------- pipeline solo para contar ------------- */
     const countPipeline = [
       { $match: match },
       {

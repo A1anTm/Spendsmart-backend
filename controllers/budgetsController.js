@@ -1,4 +1,3 @@
-// controllers/budgetsController.js
 import Budget from "../models/budgetsModel.js";
 import Transaction from "../models/transactionsModel.js";
 import mongoose from "mongoose";
@@ -11,29 +10,24 @@ dotenv.config();
 const toNumber = (d) => parseFloat(d.toString());
 
 /**
- * Calcula gastado en el "month" indicado (formato "YYYY-MM").
- * Si budgetCreatedAt se pasa y cae dentro del mes, el intervalo comienza
- * desde budgetCreatedAt (normalizado al inicio del día) en lugar del 1 del mes.
  *
  * @param {String} userId
  * @param {String} catId
- * @param {String} month - "YYYY-MM"
- * @param {String|Date|null} budgetCreatedAt - optional
- * @returns {Number} suma de amount (Number)
+ * @param {String} month
+ * @param {String|Date|null} budgetCreatedAt 
+ * @returns {Number} 
  */
 async function spentInPeriod(userId, catId, month, budgetCreatedAt = null) {
   const [year, mm] = month.split('-').map(Number);
-  // inicio y fin del mes (UTC-local JS Date objects)
   let start = new Date(year, mm - 1, 1);
   const end = new Date(year, mm, 1);
 
-  // Si nos pasaron createdAt del presupuesto y cae dentro de este mes,
-  // arrancamos desde la fecha de creación EXACTA (no desde inicio del día)
+
   if (budgetCreatedAt) {
     try {
       const created = new Date(budgetCreatedAt);
       if (!isNaN(created.getTime()) && created >= start && created < end) {
-        start = created; // <-- usamos el timestamp exacto del createdAt
+        start = created; 
       }
     } catch (e) {
       console.warn('[spentInPeriod] parsing budgetCreatedAt falló:', e && e.message ? e.message : e);
@@ -92,7 +86,6 @@ export const createBudget = async (req, res) => {
       }
     );
 
-    // Nota: findOneAndUpdate con upsert devuelve el documento (sea nuevo o actualizado).
     return res.status(200).json({ budget: updated });
   } catch (e) {
     console.error(e);
@@ -119,7 +112,6 @@ export const listBudgets = async (req, res) => {
 
     const enriched = await Promise.all(
       budgets.map(async (b) => {
-        // PASAMOS b.createdAt para que el gasto empiece a contarse desde la creación del presupuesto
         const spent = await spentInPeriod(
           req.user._id,
           b.category_id._id,
@@ -225,7 +217,6 @@ export async function checkBudgetAlert(userId, categoryId, month) {
       threshold: budget.threshold,
     });
 
-    // PASAMOS budget.createdAt para respetar desde cuándo debe contarse
     const spent = await spentInPeriod(
       userId,
       categoryId,

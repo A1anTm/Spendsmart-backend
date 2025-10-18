@@ -177,7 +177,7 @@ export const getProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id)
       .select('full_name birthdate phone_number country address social_accounts bio')
-      .lean(); // más rápido y limpio
+      .lean(); 
 
     if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
 
@@ -201,7 +201,6 @@ export const updateProfile = async (req, res) => {
       social_accounts
     } = req.body;
 
-    // Construimos el objeto updates sólo con los campos presentes en el body
     const updates = {};
 
     if (typeof full_name === 'string') updates.full_name = full_name.trim();

@@ -1,4 +1,3 @@
-// index.js
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
@@ -22,7 +21,6 @@ const port = process.env.PORT || 3002;
 app.use(express.json());
 app.use(cookieParser());
 
-// origen del frontend (puedes inyectarlo desde .env)
 const allowedOrigin = process.env.CLIENT_ORIGIN || 'http://localhost:3000';
 
 app.use(
@@ -52,14 +50,12 @@ app.use('/api/categories', categoryRoutes);
 
 async function start() {
   try {
-    // si tienes DATABASE_URL (cadena completa) la usamos tal cual
     let mongoUrl = process.env.DATABASE_URL && process.env.DATABASE_URL.trim();
 
     if (!mongoUrl) {
-      // sino construimos la URL a partir de partes
       const dbUser = process.env.DB_USER;
       const dbPass = process.env.DB_PASS;
-      const clusterHost = process.env.CLUSTER_HOST; // p.ej. cluster0.owgsxrc.mongodb.net
+      const clusterHost = process.env.CLUSTER_HOST; 
       const dbName = process.env.DB_NAME || 'spendsmart_db';
 
       if (!dbUser || !dbPass || !clusterHost) {
@@ -72,7 +68,6 @@ async function start() {
       mongoUrl = `mongodb+srv://${userEncoded}:${passEncoded}@${clusterHost}/${dbName}?retryWrites=true&w=majority`;
     }
 
-    // Conectar a MongoDB
     await mongoose.connect(mongoUrl, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
