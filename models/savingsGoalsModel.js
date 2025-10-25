@@ -68,7 +68,6 @@ import validator from 'validator';
             const today = new Date();
             today.setHours(0, 0, 0, 0);
 
-            // estrictamente futura (>, no >=)
             return due.getTime() > today.getTime();
             } catch (e) {
             return false;

@@ -68,7 +68,7 @@ export const createTransaction = async (req, res) => {
   });
 
     if (type === 'gasto' && category_id) {
-  const month = new Date(newTx.date).toISOString().slice(0, 7); // "YYYY-MM" del date almacenado
+  const month = new Date(newTx.date).toISOString().slice(0, 7);
   console.log('[CREATE-TX] Invocando checkBudgetAlert con month:', month);
   await checkBudgetAlert(req.user._id, category_id, month);
 }

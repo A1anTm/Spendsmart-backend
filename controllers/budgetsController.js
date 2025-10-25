@@ -198,7 +198,6 @@ export async function checkBudgetAlert(userId, categoryId, month) {
   try {
     console.log("[BUDGET-ALERT] Invocado:", { userId, categoryId, month });
 
-    // populate para tener category_id.name
     const budget = await Budget.findOne({
       user_id: userId,
       category_id: categoryId,

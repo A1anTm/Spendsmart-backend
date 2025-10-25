@@ -43,10 +43,8 @@ export const createSavingsGoal = async (req, res) => {
     try {
         const { name, description, target_amount, due_date } = req.body;
 
-        // parsear fecha a midnight local
         const dueDate = parseDateOnly(due_date);
 
-        // log de depuración (quítalo en producción si quieres)
         console.log('📅 createSavingsGoal - payload due_date:', due_date, ' -> parsed dueDate:', dueDate);
 
         if (!dueDate) {

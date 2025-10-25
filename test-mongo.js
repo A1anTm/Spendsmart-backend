@@ -1,7 +1,6 @@
-// test-mongo.js
 import mongoose from 'mongoose';
 import { config } from 'dotenv';
-config({ path: './Config/.env' }); // o '.env' según dónde esté
+config({ path: './Config/.env' }); 
 
 const run = async () => {
   try {

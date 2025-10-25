@@ -229,7 +229,7 @@ export const updateProfile = async (req, res) => {
       { $set: updates },
       { new: true, runValidators: true, context: 'query' }
     )
-      .select('-password -password_history -resetPasswordToken -resetPasswordExpires') // no enviar datos sensibles
+      .select('-password -password_history -resetPasswordToken -resetPasswordExpires') 
       .lean();
 
     if (!updated) return res.status(404).json({ message: 'Usuario no encontrado' });
